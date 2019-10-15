@@ -2,7 +2,7 @@ package ru.skillbranch.devintensive.models
 
 import java.util.*
 
-abstract class BaseMassage(
+abstract class BaseMessage(
     val id: String,
     val from: User?,
     val chat: Chat,
@@ -13,7 +13,7 @@ abstract class BaseMassage(
 
     companion object AbstractFactory {
         var lastId = -1
-        fun makeMessage(from: User?, chat: Chat, date: Date = Date(), type: String, payload: String?, isIncoming: Boolean = false): BaseMassage? {
+        fun makeMessage(from: User?, chat: Chat, date: Date = Date(), type: String, payload: String?, isIncoming: Boolean = false): BaseMessage? {
             lastId++
 
             return when(type){

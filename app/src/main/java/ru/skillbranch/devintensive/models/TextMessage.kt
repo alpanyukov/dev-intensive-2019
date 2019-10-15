@@ -10,7 +10,7 @@ class TextMessage(
     isIncoming: Boolean = false,
     date: Date = Date(),
     var text:String?
-) : BaseMassage(id, from, chat, isIncoming, date ) {
+) : BaseMessage(id, from, chat, isIncoming, date ) {
 
     override fun formatMessage(): String {
         val message = text?.trim()

@@ -10,7 +10,7 @@ class ImageMessage(
     isIncoming: Boolean = false,
     date: Date = Date(),
     var image:String?
-) : BaseMassage(id, from, chat, isIncoming, date ) {
+) : BaseMessage(id, from, chat, isIncoming, date ) {
 
     override fun formatMessage(): String {
         val message = image?.trim()
