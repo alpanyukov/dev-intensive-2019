@@ -45,7 +45,7 @@ fun Date.humanizeDiff(date: Date = Date()): String {
             return if (isPast) "$minutes $plural назад" else "через $minutes $plural"
         }
 
-        in 45 * MINUTE until 75 * MINUTE -> if(isPast) "час назад" else "через час"
+        in 45 * MINUTE until 75 * MINUTE -> if (isPast) "час назад" else "через час"
 
         in 75 * MINUTE until 22 * HOUR -> {
             val hours = (absoluteDiff / HOUR.toFloat()).roundToInt()
@@ -53,15 +53,15 @@ fun Date.humanizeDiff(date: Date = Date()): String {
             return if (isPast) "$hours $plural назад" else "через $hours $plural"
         }
 
-        in 22 * HOUR until 26 * HOUR -> if(isPast) "день назад" else "через день"
+        in 22 * HOUR until 26 * HOUR -> if (isPast) "день назад" else "через день"
 
         in 26 * HOUR until 360 * DAY.toLong() -> {
             val days = (absoluteDiff / DAY.toFloat()).roundToInt()
-            val plural =TimeUnits.DAY.plural(days)
-            return if(isPast) "$days $plural назад" else "через $days $plural"
+            val plural = TimeUnits.DAY.plural(days)
+            return if (isPast) "$days $plural назад" else "через $days $plural"
         }
 
-        else -> if(isPast) "более года назад" else "более чем через год"
+        else -> if (isPast) "более года назад" else "более чем через год"
     }
 }
 
@@ -84,30 +84,34 @@ fun Date.add(value: Int, units: TimeUnits = TimeUnits.SECOND): Date {
 
 enum class TimeUnits {
     SECOND {
-        override fun plural(value: Int): String = when (value % 10) {
-            1 -> "секунда"
-            in 2..4 -> "секунды"
+        override fun plural(value: Int): String = when  {
+            value in 10..20 -> "секунд"
+            value % 10 == 1 -> "секунда"
+            value % 10 in 2..4 -> "секунды"
             else -> "cекунд"
         }
     },
     MINUTE {
-        override fun plural(value: Int): String = when (value % 10) {
-            1 -> "минута"
-            in 2..4 -> "минуты"
+        override fun plural(value: Int): String = when  {
+            value in 10..20 -> "минут"
+            value % 10 == 1 -> "минута"
+            value % 10 in 2..4 -> "минуты"
             else -> "минут"
         }
     },
     HOUR {
-        override fun plural(value: Int): String = when (value % 10) {
-            1 -> "час"
-            in 2..4 -> "часа"
+        override fun plural(value: Int): String = when  {
+            value in 10..20 -> "часов"
+            value % 10 == 1 -> "час"
+            value % 10 in 2..4 -> "часа"
             else -> "часов"
         }
     },
     DAY {
-        override fun plural(value: Int): String = when (value % 10) {
-            1 -> "день"
-            in 2..4 -> "дня"
+        override fun plural(value: Int): String = when  {
+            value in 10..20 -> "дней"
+            value % 10 == 1 -> "день"
+            value % 10 in 2..4 -> "дня"
             else -> "дней"
         }
     };
