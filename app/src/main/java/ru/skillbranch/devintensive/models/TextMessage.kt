@@ -9,12 +9,12 @@ class TextMessage(
     chat: Chat,
     isIncoming: Boolean = false,
     date: Date = Date(),
-    var text:String?
-) : BaseMessage(id, from, chat, isIncoming, date ) {
+    var text: String?
+) : BaseMessage(id, from, chat, isIncoming, date) {
 
     override fun formatMessage(): String {
         val message = text?.trim()
-        if(message == "" || message == null){
+        if (message == "" || message == null) {
             return ""
         }
 

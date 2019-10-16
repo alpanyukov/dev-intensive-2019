@@ -24,32 +24,12 @@ data class User(
     companion object Factory {
         private var lastId = -1
 
-        fun makeUser(
-            firstName: String? = null,
-            lastName: String? = null,
-            avatar: String? = null,
-            rating: Int = 0,
-            respect: Int = 0,
-            lastVisit: Date? = Date(),
-            isOnline: Boolean = false
-        ): User {
+        fun makeUser(fullName: String): User {
+            val (firstName, lastName) = parseFullName(fullName)
             lastId++
 
             return User(
-                "$lastId",
-                firstName,
-                lastName,
-                avatar,
-                rating,
-                respect,
-                lastVisit,
-                isOnline
-            )
-        }
-
-        fun makeUser(fullName: String): User {
-            val (firstName, lastName) = parseFullName(fullName)
-            return makeUser(
+                id = "$lastId",
                 firstName = firstName,
                 lastName = lastName
             )
@@ -59,14 +39,16 @@ data class User(
     }
 
     data class Builder(
-        private var firstName: String? = null,
-        private var lastName: String? = null,
-        private var avatar: String? = null,
-        private var rating: Int = 0,
-        private var respect: Int = 0,
-        private var lastVisit: Date? = Date(),
-        private var isOnline: Boolean = false
+        var id: String? = null,
+        var firstName: String? = null,
+        var lastName: String? = null,
+        var avatar: String? = null,
+        var rating: Int = 0,
+        var respect: Int = 0,
+        var lastVisit: Date? = Date(),
+        var isOnline: Boolean = false
     ) {
+        fun id(id: String) = apply { this.id = id }
         fun firstName(firstName: String) = apply { this.firstName = firstName }
         fun lastName(lastName: String) = apply { this.lastName = lastName }
         fun avatar(avatar: String) = apply { this.avatar = avatar }
@@ -74,14 +56,15 @@ data class User(
         fun respect(respect: Int) = apply { this.respect = respect }
         fun lastVisit(lastVisit: Date) = apply { this.lastVisit = lastVisit }
         fun isOnline(isOnline: Boolean) = apply { this.isOnline = isOnline }
-        fun build() = makeUser(
-            firstName,
-            lastName,
-            avatar,
-            rating,
-            respect,
-            lastVisit,
-            isOnline
+        fun build() = User(
+            id = id ?: "${++lastId}",
+            firstName = firstName,
+            lastName = lastName,
+            avatar = avatar,
+            rating = rating,
+            respect = respect,
+            lastVisit = lastVisit,
+            isOnline = isOnline
         )
     }
 

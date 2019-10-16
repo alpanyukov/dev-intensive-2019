@@ -9,12 +9,12 @@ class ImageMessage(
     chat: Chat,
     isIncoming: Boolean = false,
     date: Date = Date(),
-    var image:String?
-) : BaseMessage(id, from, chat, isIncoming, date ) {
+    var image: String?
+) : BaseMessage(id, from, chat, isIncoming, date) {
 
     override fun formatMessage(): String {
         val message = image?.trim()
-        if(message == "" || message == null){
+        if (message == "" || message == null) {
             return ""
         }
 
