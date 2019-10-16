@@ -32,7 +32,7 @@ fun Date.humanizeDiff(date: Date = Date()): String {
     val isPast = timeDiff >= 0
 
     return when (val absoluteDiff = timeDiff.absoluteValue) {
-        in 0 until 2 * SECOND -> if (isPast) "только что" else "через несколько секунд"
+        in 0 until 2 * SECOND -> "только что"
 
         in 2 * SECOND until 46 * SECOND ->
             if (isPast) "несколько секунд назад" else "через несколько секунд"
@@ -85,15 +85,15 @@ fun Date.add(value: Int, units: TimeUnits = TimeUnits.SECOND): Date {
 enum class TimeUnits {
     SECOND {
         override fun plural(value: Int): String = "%s ${when {
-            value in 10..20 -> "секунд"
+            value % 100 in 10..20 -> "секунд"
             value % 10 == 1 -> "секунду"
             value % 10 in 2..4 -> "секунды"
-            else -> "cекунд"
+            else -> "секунд"
         }}".format(value)
     },
     MINUTE {
         override fun plural(value: Int): String = "%s ${when {
-            value in 10..20 -> "минут"
+            value % 100 in 10..20 -> "минут"
             value % 10 == 1 -> "минуту"
             value % 10 in 2..4 -> "минуты"
             else -> "минут"
@@ -101,7 +101,7 @@ enum class TimeUnits {
     },
     HOUR {
         override fun plural(value: Int): String = "%s ${when {
-            value in 10..20 -> "часов"
+            value % 100 in 10..20 -> "часов"
             value % 10 == 1 -> "час"
             value % 10 in 2..4 -> "часа"
             else -> "часов"
@@ -109,7 +109,7 @@ enum class TimeUnits {
     },
     DAY {
         override fun plural(value: Int): String = "%s ${when {
-            value in 10..20 -> "дней"
+            value % 100 in 10..20 -> "дней"
             value % 10 == 1 -> "день"
             value % 10 in 2..4 -> "дня"
             else -> "дней"
