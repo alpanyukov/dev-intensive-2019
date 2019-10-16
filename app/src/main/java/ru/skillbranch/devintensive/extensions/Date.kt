@@ -86,7 +86,7 @@ enum class TimeUnits {
     SECOND {
         override fun plural(value: Int): String = when  {
             value in 10..20 -> "секунд"
-            value % 10 == 1 -> "секунда"
+            value % 10 == 1 -> "секунду"
             value % 10 in 2..4 -> "секунды"
             else -> "cекунд"
         }
@@ -94,7 +94,7 @@ enum class TimeUnits {
     MINUTE {
         override fun plural(value: Int): String = when  {
             value in 10..20 -> "минут"
-            value % 10 == 1 -> "минута"
+            value % 10 == 1 -> "минуту"
             value % 10 in 2..4 -> "минуты"
             else -> "минут"
         }
