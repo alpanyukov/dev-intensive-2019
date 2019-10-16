@@ -29,36 +29,36 @@ fun Date.format(pattern: String = "HH:mm:ss dd.MM.yy"): String {
  */
 fun Date.humanizeDiff(date: Date = Date()): String {
     val timeDiff = date.time - this.time
-    val isPast = timeDiff > 0
+    val isPast = timeDiff >= 0
 
     return when (val absoluteDiff = timeDiff.absoluteValue) {
-        in 0 until SECOND -> "только что"
+        in 0 until 2 * SECOND -> if (isPast) "только что" else "через несколько секунд"
 
-        in SECOND until 45 * SECOND ->
+        in 2 * SECOND until 46 * SECOND ->
             if (isPast) "несколько секунд назад" else "через несколько секунд"
 
-        in 45 * SECOND until 75 * SECOND -> if (isPast) "минуту назад" else "через минуту"
+        in 46 * SECOND until 76 * SECOND -> if (isPast) "минуту назад" else "через минуту"
 
-        in 75 * SECOND until 45 * MINUTE -> {
+        in 76 * SECOND until 46 * MINUTE -> {
             val minutes = (absoluteDiff / MINUTE.toFloat()).roundToInt()
             val plural = TimeUnits.MINUTE.plural(minutes)
-            return if (isPast) "$minutes $plural назад" else "через $minutes $plural"
+            return if (isPast) "$plural назад" else "через $plural"
         }
 
-        in 45 * MINUTE until 75 * MINUTE -> if (isPast) "час назад" else "через час"
+        in 46 * MINUTE until 76 * MINUTE -> if (isPast) "час назад" else "через час"
 
-        in 75 * MINUTE until 22 * HOUR -> {
+        in 76 * MINUTE until 23 * HOUR -> {
             val hours = (absoluteDiff / HOUR.toFloat()).roundToInt()
             val plural = TimeUnits.HOUR.plural(hours)
-            return if (isPast) "$hours $plural назад" else "через $hours $plural"
+            return if (isPast) "$plural назад" else "через $plural"
         }
 
-        in 22 * HOUR until 26 * HOUR -> if (isPast) "день назад" else "через день"
+        in 23 * HOUR until 27 * HOUR -> if (isPast) "день назад" else "через день"
 
-        in 26 * HOUR until 360 * DAY.toLong() -> {
+        in 27 * HOUR until 361 * DAY.toLong() -> {
             val days = (absoluteDiff / DAY.toFloat()).roundToInt()
             val plural = TimeUnits.DAY.plural(days)
-            return if (isPast) "$days $plural назад" else "через $days $plural"
+            return if (isPast) "$plural назад" else "через $plural"
         }
 
         else -> if (isPast) "более года назад" else "более чем через год"
@@ -84,36 +84,36 @@ fun Date.add(value: Int, units: TimeUnits = TimeUnits.SECOND): Date {
 
 enum class TimeUnits {
     SECOND {
-        override fun plural(value: Int): String = when  {
+        override fun plural(value: Int): String = "%s ${when {
             value in 10..20 -> "секунд"
             value % 10 == 1 -> "секунду"
             value % 10 in 2..4 -> "секунды"
             else -> "cекунд"
-        }
+        }}".format(value)
     },
     MINUTE {
-        override fun plural(value: Int): String = when  {
+        override fun plural(value: Int): String = "%s ${when {
             value in 10..20 -> "минут"
             value % 10 == 1 -> "минуту"
             value % 10 in 2..4 -> "минуты"
             else -> "минут"
-        }
+        }}".format(value)
     },
     HOUR {
-        override fun plural(value: Int): String = when  {
+        override fun plural(value: Int): String = "%s ${when {
             value in 10..20 -> "часов"
             value % 10 == 1 -> "час"
             value % 10 in 2..4 -> "часа"
             else -> "часов"
-        }
+        }}".format(value)
     },
     DAY {
-        override fun plural(value: Int): String = when  {
+        override fun plural(value: Int): String = "%s ${when {
             value in 10..20 -> "дней"
             value % 10 == 1 -> "день"
             value % 10 in 2..4 -> "дня"
             else -> "дней"
-        }
+        }}".format(value)
     };
 
     abstract fun plural(value: Int): String
