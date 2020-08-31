@@ -36,6 +36,8 @@
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
             android:lines="1"
+            android:inputType="text"
+            android:imeOptions="flagNoExtractUi"
             android:textColor="@color/color_gray_light"
             android:textColorHint="@color/color_gray_light"
             android:hint="Введите текст"

@@ -3,11 +3,13 @@ package ru.skillbranch.devintensive
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Bundle
+import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
+import ru.skillbranch.devintensive.extensions.hideKeyboard
 import ru.skillbranch.devintensive.models.Bender
 import java.util.*
 
@@ -30,6 +32,16 @@ class MainActivity : AppCompatActivity() {
         sendImg = iv_send
 
         sendImg.setOnClickListener {handleClick()}
+        messageEt.setOnEditorActionListener { _, actionId, _ ->
+            when(actionId){
+                EditorInfo.IME_ACTION_DONE -> {
+                    handleClick()
+                    hideKeyboard()
+                    true
+                }
+                else -> false
+            }
+        }
 
         val status = savedInstanceState?.getString("status") ?: Bender.Status.NORMAL.name
         val question = savedInstanceState?.getString("question") ?: Bender.Question.NAME.name
